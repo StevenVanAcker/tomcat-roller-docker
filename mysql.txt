@@ -1,0 +1,3 @@
+create database rollerdb;
+grant all on rollerdb.* to scott@'%' identified by 'tiger';
+grant all on rollerdb.* to scott@localhost identified by 'tiger';
