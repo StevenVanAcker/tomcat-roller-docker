@@ -1,10 +1,7 @@
 FROM ubuntu:12.04
 
 RUN apt-get update 
-RUN apt-get --yes install default-jdk build-essential vim
-RUN apt-get --yes install wget
-RUN apt-get --yes install libmysql-java mysql-server
-RUN apt-get --yes install supervisor
+RUN apt-get --yes install default-jdk build-essential vim wget libmysql-java mysql-server
 
 RUN useradd -m -d /home/roller -s /bin/bash roller
 
@@ -27,8 +24,6 @@ RUN cp roller/webapp/roller-5.0.1-tomcat.war tomcat/webapps/
 ADD mysql.txt /home/roller/mysql.txt
 ADD roller-custom.properties /home/roller/apache-tomcat-7.0.53/lib/roller-custom.properties
 ADD tomcat-users.xml /home/roller/apache-tomcat-7.0.53/conf/tomcat-users.xml
-ADD extra.policy /home/roller/extra.policy
-RUN cat extra.policy >> /home/roller/apache-tomcat-7.0.53/conf/catalina.policy
 RUN mkdir -p data/mediafiles data/searchindex
 
 WORKDIR /home/roller/tomcat/lib
@@ -42,7 +37,5 @@ RUN chown -R roller:roller .
 
 WORKDIR /home/roller/tomcat
 EXPOSE 8080 
-# CMD ./bin/startup.sh && /bin/bash
+
 CMD ( /usr/sbin/mysqld & ) && sleep 3 && mysql < /home/roller/mysql.txt && su -c ./bin/startup.sh roller && /bin/bash
-
-
