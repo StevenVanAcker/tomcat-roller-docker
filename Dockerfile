@@ -38,4 +38,4 @@ RUN chown -R roller:roller .
 WORKDIR /home/roller/tomcat
 EXPOSE 8080 
 
-CMD ( /usr/sbin/mysqld & ) && sleep 3 && mysql < /home/roller/mysql.txt && su -c ./bin/startup.sh roller && /bin/bash
+CMD ( /usr/sbin/mysqld & ) && echo "Sleeping 5 seconds to allow MySQL to start" && sleep 5 && mysql < /home/roller/mysql.txt && su -c ./bin/startup.sh roller && /bin/bash
